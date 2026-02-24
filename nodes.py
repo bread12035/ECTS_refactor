@@ -2,7 +2,7 @@
 LangGraph node implementations.
 
 Every node that performs LLM processing must obtain its model via _get_llm().
-The two exceptions – json_parser and wrapper – perform pure data transformation
+The two exceptions – start_point and wrapper – perform pure data transformation
 and must NOT call the LLM.
 
 Each node receives the full GraphState and returns a dict containing only the
@@ -22,7 +22,7 @@ from state import GraphState
 # Initialization node (no LLM)
 # ---------------------------------------------------------------------------
 
-def json_parser_node(state: GraphState) -> dict:
+def start_point_node(state: GraphState) -> dict:
     """
     Entry node. The API layer pre-populates GraphState with the four base
     inputs before graph invocation, so no additional transformation is needed.

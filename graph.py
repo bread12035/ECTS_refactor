@@ -4,7 +4,7 @@ LangGraph workflow definition.
 Graph execution flow
 --------------------
 START
-  └─► json_parser
+  └─► start_point
         ├─► transcript_fa_extraction ─► fa_highlights ─────────────────────────────────┐
         ├─► transcript_guidance_extraction ─► guid_validation ─────────────────────────┤
         ├─► segment_extraction ─► context_retrieval ─┬─► integrator ─► key_messages ───┤
@@ -22,7 +22,7 @@ from nodes import (
     fa_highlights_node,
     guid_validation_node,
     integrator_node,
-    json_parser_node,
+    start_point_node,
     key_messages_node,
     output_template_node,
     second_QA_node,
@@ -42,7 +42,7 @@ def build_graph() -> StateGraph:
     # ------------------------------------------------------------------
     # Register all nodes
     # ------------------------------------------------------------------
-    builder.add_node("json_parser", json_parser_node)
+    builder.add_node("start_point", start_point_node)
 
     # Branch 1
     builder.add_node("transcript_fa_extraction", transcript_fa_extraction_node)
@@ -73,13 +73,13 @@ def build_graph() -> StateGraph:
     # ------------------------------------------------------------------
 
     # Entry point
-    builder.add_edge(START, "json_parser")
+    builder.add_edge(START, "start_point")
 
-    # Fan-out: json_parser → all four branch heads (executed in parallel)
-    builder.add_edge("json_parser", "transcript_fa_extraction")
-    builder.add_edge("json_parser", "transcript_guidance_extraction")
-    builder.add_edge("json_parser", "segment_extraction")
-    builder.add_edge("json_parser", "transcript_QA_extraction")
+    # Fan-out: start_point → all four branch heads (executed in parallel)
+    builder.add_edge("start_point", "transcript_fa_extraction")
+    builder.add_edge("start_point", "transcript_guidance_extraction")
+    builder.add_edge("start_point", "segment_extraction")
+    builder.add_edge("start_point", "transcript_QA_extraction")
 
     # Branch 1: Financial Highlights
     builder.add_edge("transcript_fa_extraction", "fa_highlights")

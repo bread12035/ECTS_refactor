@@ -94,7 +94,7 @@ uvicorn app:app --host 0.0.0.0 --port 8000 --reload
 
 ```
 START
-  └─► json_parser
+  └─► start_point
         ├─► [Branch 1] transcript_fa_extraction → fa_highlights ─────────────────────┐
         ├─► [Branch 2] transcript_guidance_extraction → guid_validation ──────────────┤
         ├─► [Branch 3] segment_extraction → context_retrieval ──┬─► integrator        │
@@ -122,4 +122,4 @@ START
 - **Prompt decoupling** — all system/user prompts live in `prompts.py`. Node logic contains no hardcoded prompt text.
 - **Shared LLM factory** — every LLM node calls `_get_llm()` from `llm.py`. To swap models or adjust parameters, edit that one function.
 - **Structured output nodes** — `segment_extraction` and `context_retrieval` return `dict` values (`{"content": ...}`). The schema can be tightened with `.with_structured_output()` once a response schema is defined.
-- **No LLM in `json_parser` / `wrapper`** — these nodes perform pure data transformation only.
+- **No LLM in `start_point` / `wrapper`** — these nodes perform pure data transformation only.
